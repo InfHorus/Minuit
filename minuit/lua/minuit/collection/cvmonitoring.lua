@@ -18,7 +18,6 @@ function self:Constructor ()
 		
 		["map_bumpmap"] 						= { GetConVar ("map_bumpmap") and GetConVar ("map_bumpmap"):GetInt (), 0, false },
 		["mat_picmip"] 							= { GetConVar ("mat_picmip")  and GetConVar ("mat_picmip"):GetInt (), 2, false },
-		["mat_reduceparticles"]					= { GetConVar ("mat_reduceparticles")  and GetConVar ("mat_reduceparticles"):GetInt (), 1, false },
 		
 		["mat_queue_mode"] 						= { GetConVar ("mat_queue_mode"):GetInt (), 2, false },
 		["cl_threaded_bone_setup"] 				= { GetConVar ("cl_threaded_bone_setup"):GetInt (), 1, false },

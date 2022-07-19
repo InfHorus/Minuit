@@ -8,8 +8,28 @@ do
 	if Minuit ["Minuit:Source"]:GetStateStatus (SERVER) then
 		Minuit ["Minuit:Governance"]:Constructor   ()
 		Minuit ["Minuit:EventHandler"]:Constructor ()
+		Minuit ["Minuit:TurboPhysics"]:Constructor ()
 		
-		hook.Add ("InitPostEntity", "Minuit:InitEvent", function () Minuit ["Minuit:EventHandler"]:StartupHook () end)
+		Minuit ["Minuit:TimerEntry"]:CreateTimer ("Minuit:HandleTurboPhysic", 5, 
+			function ()
+				Minuit ["Minuit:TurboPhysics"]:LaunchTurboPhysics ()
+			end
+		)
+		
+		net.Receive ("Minuit:Ascending",
+			function (len, ply)
+				Minuit ["Minuit:TurboPhysics"]:Ejection (len, ply)
+			end
+		)
+		
+		hook.Add ("InitPostEntity", "Minuit:InitEvent", 
+			function () 
+				Minuit ["Minuit:EventHandler"]:StartupHook ()
+				
+				Minuit ["Minuit:PFactory"]:PreConstructor ()
+				Minuit ["Minuit:PFactory"]:Constructor ()
+			end
+		)
 	end
 	
 	hook.Add ("Think", "Minuit:Timing", function () Minuit ["Minuit:TimerEntry"]:ExecuteTimers () end)
