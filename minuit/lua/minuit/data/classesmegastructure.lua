@@ -22,12 +22,20 @@ do
 			end
 		)
 		
+		net.Receive ("Minuit:UploadClient",
+			function (len, ply)
+				Minuit ["Minuit:LayoutControl"]:HandleRequest (len, ply)
+			end
+		)
+		
 		hook.Add ("InitPostEntity", "Minuit:InitEvent", 
 			function () 
 				Minuit ["Minuit:EventHandler"]:StartupHook ()
 				
 				Minuit ["Minuit:PFactory"]:PreConstructor ()
 				Minuit ["Minuit:PFactory"]:Constructor ()
+				
+				Minuit ["Minuit:LayoutControl"]:Constructor ()
 			end
 		)
 	end
@@ -48,7 +56,7 @@ do
 	Minuit ["Minuit:CVMonitoring"]:ApplyConvars 	()
 	
 	hook.Add ("InitPostEntity", "Minuit:InitEvent", 
-		function () Minuit ["Minuit:CopyHandler"]:StartupHook () 
+		function () Minuit ["Minuit:CopyHandler"]:StartupHook () Minuit ["Minuit:SafeRequester"]:Constructor ()
 	end)
 
 	hook.Add ("PrePlayerDraw", Minuit ["Minuit:ImageSynthesisC"].Identifier, 

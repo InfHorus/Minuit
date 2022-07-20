@@ -62,6 +62,8 @@ function self:HandlePunishment (ply, reason, duration)
 	
 	if duration == -1 then
 		ply:Kick (banReason)
+		
+		return
 	end
 	
 	if self.Usable == "ULX" then

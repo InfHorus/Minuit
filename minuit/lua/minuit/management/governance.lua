@@ -70,6 +70,7 @@ function self:Constructor ()
 			end
 		end
 	end
+	
 	importedManagement:MiniLogger ("Minuit:Governance ran successfully.")
 end
 
