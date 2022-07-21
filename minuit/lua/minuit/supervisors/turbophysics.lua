@@ -200,7 +200,7 @@ function self:Ejection (len, ply)
 	end
 	
 	if not bool or not ply:IsAdmin () then
-		Minuit ["Minuit:Initializer"]:MiniLogger ("Warning: " .. ply:Nick ()  .. " attempted to kick x without admin privileges.")
+		Minuit ["Minuit:Initializer"]:MiniLogger ("Warning: " .. ply:Nick ()  .. " attempted to kick " .. victim:Nick () .. " without admin privileges.")
 		return
 	end
 	

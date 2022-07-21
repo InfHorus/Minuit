@@ -76,8 +76,6 @@ local function deliverUpdatedPacket (garbagedBase, ply, channel)
 	end
 	
 	for i = 1, parts do
-		print(i .. " / " .. parts)
-		
 		local endbyte = math.min (start + packets, length)
 		local size    = endbyte - start
 		net.Start (channel)
