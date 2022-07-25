@@ -77,7 +77,7 @@ local function deliverUpdatedPacket (garbagedBase, ply, channel)
 	local ATS = 0
 	local sessionHash = self.SessionHash ()
 	
-	print(timer.Exists (self:InternalId () .. "internal_" .. sessionHash))
+	--print(timer.Exists (self:InternalId () .. "internal_" .. sessionHash))
 	for key, value in pairs (garbagedBase) do
 		if not key or type (key) ~= "Player" then 
 			goto skipped

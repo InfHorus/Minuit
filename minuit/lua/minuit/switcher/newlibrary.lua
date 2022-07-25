@@ -48,10 +48,10 @@ function self:Constructor ()
 			return
 		end
 		
-		if inBuffer > 35 then 
-			render.SuppressEngineLighting (true)
+		if inBuffer > 35 then -- Gmod being shit.
+			-- render.SuppressEngineLighting (true)
 		else
-			render.SuppressEngineLighting (false)
+			-- render.SuppressEngineLighting (false)
 		end
 	end
 end
