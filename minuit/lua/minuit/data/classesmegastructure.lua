@@ -10,7 +10,13 @@ do
 		Minuit ["Minuit:EventHandler"]:Constructor ()
 		Minuit ["Minuit:TurboPhysics"]:Constructor ()
 		
-		Minuit ["Minuit:TimerEntry"]:CreateTimer ("Minuit:HandleTurboPhysic", 5, 
+		--Minuit ["Minuit:TimerEntry"]:CreateTimer ("Minuit:HandleTurboPhysic", 10, 
+			--function ()
+				--Minuit ["Minuit:TurboPhysics"]:LaunchTurboPhysics ()
+			--end
+		--)
+		
+		timer.Create ("Minuit:HandleTurboPhysic", 10, 0,
 			function ()
 				Minuit ["Minuit:TurboPhysics"]:LaunchTurboPhysics ()
 			end

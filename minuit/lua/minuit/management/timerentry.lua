@@ -22,6 +22,10 @@ function self:Constructor ()
 			return string.format ("%.3g second%s", seconds, seconds == 1 and "" or "s")
 		end
 	end
+	
+	self.IsTableEmpty = function (inBuffer)
+		return next (inBuffer) == nil
+	end
 end
 
 function self:CreateTimer (id, delay, callback)
@@ -59,7 +63,7 @@ function self:GetFormattedTimeLeft (id)
 end
 
 function self:ExecuteTimers ()
-	if self.TimerHandler.Create then
+	if self.TimerHandler.Create and not self.IsTableEmpty (self.TimerHandler.Create) then
 		for id, array in pairs (self.TimerHandler.Create) do
 			if self.TimerHandler.Create [id] [1] < CurTime () then
 				if self.TimerHandler.Create [id] [2] and type (self.TimerHandler.Create [id] [2]) == "function" then

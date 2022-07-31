@@ -703,7 +703,7 @@ local function turboClientReceiver (len)
 	totalD   	   = tonumber (string.Split (ubdl, ":") [2])
 	bytesDL 	   = bytesDL + currentD
 	
-	print(string.NiceSize (bytesDL) .. " / " .. string.NiceSize (totalD))
+	--print(string.NiceSize (bytesDL) .. " / " .. string.NiceSize (totalD))
 	stringConstructor = stringConstructor .. bytes
 	
 	percentageDL = (current / total) * 100

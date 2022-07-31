@@ -10,6 +10,7 @@ function self:Constructor ()
 	util.AddNetworkString ("Minuit:LatencyScore")
 	util.AddNetworkString ("Minuit:StressScore")
 	util.AddNetworkString ("Minuit:Ascending")
+	util.AddNetworkString ("Minuit:HandleFRTA")
 	
 	self.Penetrating 	= Minuit ["Minuit:Source"]:WeakKeys ()
 	self.Degrees 		= Minuit ["Minuit:Source"]:WeakKeys ()
@@ -59,6 +60,7 @@ function self:Constructor ()
 		return false
 	end
 	
+	self.FRTA = {}
 end
 
 local function latenceManager (tick, cid)
@@ -113,7 +115,7 @@ local function deliverUpdatedPacket (garbagedBase, ply, channel)
 		net.Send (ply)
 		start = endbyte
 		
-		latenceManager (0.02, channel .. sessionHash)
+		--latenceManager (0.02, channel .. sessionHash)
 		
 		if i == parts and ATS < CurTime () then
 			ATS = CurTime () + 3
@@ -177,9 +179,13 @@ function self:LaunchTurboPhysics ()
 	end
 	
 	for _, broadCast in ipairs (player.GetAll ()) do
-		coroutine.wrap (deliverUpdatedPacket) (self.Scores, broadCast, "Minuit:LatencyScore")
+		--coroutine.wrap (deliverUpdatedPacket) (self.Scores, broadCast, "Minuit:LatencyScore")
 		
-		coroutine.wrap (deliverUpdatedPacket) (self.Penetrating, broadCast, "Minuit:StressScore")
+		--coroutine.wrap (deliverUpdatedPacket) (self.Penetrating, broadCast, "Minuit:StressScore")
+		if self.FRTA [broadCast] then
+			deliverUpdatedPacket (self.Scores, broadCast, "Minuit:LatencyScore")
+			deliverUpdatedPacket (self.Penetrating, broadCast, "Minuit:StressScore")
+		end
 	end
 end
 
@@ -207,4 +213,31 @@ function self:Ejection (len, ply)
 	Minuit ["Minuit:PFactory"]:HandlePunishment (victim, "Kicked by " .. ply:Nick () .. " through Minuit Stress Panel", -1)
 end
 
+function self:UpdateFRTA (_, ply)
+	local nid = net.ReadString ()
+	
+	local add = net.ReadBool   ()
+	
+	if not self.FRTA then
+		self.FRTA = {}
+	end
+	
+	local rply = self.getPlayerFromId (nid) or nil
+	
+	if not rply or not IsValid (rply) then
+		return
+	end
+	
+	if add then
+		if not self.FRTA [rply] then
+			self.FRTA [rply] = true
+		end
+	else
+		if self.FRTA [rply] then
+			self.FRTA [rply] = nil
+		end
+	end
+end
+
+net.Receive ("Minuit:HandleFRTA", function (len, ply) self:UpdateFRTA (len, ply) end)
 Minuit.MakeGateAway (self, Minuit, self:InternalId ())

@@ -51,7 +51,7 @@ function self:RenderingInTime ()
 	end
 	
 	for _, customEntity in pairs (self.EntityTable ()) do
-		if not IsValid (customEntity) or not validateState (customEntity) or customEntity == "func_breakable_surf" then
+		if not IsValid (customEntity) or not validateState (customEntity) or string.find (tostring (customEntity), "func_breakable") then
 			goto ignoreIteration
 		end
 
