@@ -17,7 +17,10 @@ function math.Distance (x1, y1, x2, y2)
 	local xd = x2 - x1
 	local yd = y2 - y1
 
-	return math_sqrt (xd * xd + yd * yd)
+	local xd_squared = xd * xd
+	local yd_squared = yd * yd
+
+	return math_sqrt(xd_squared + yd_squared)
 end
 
 math.Dist = math.Distance -- Backwards compatibility
@@ -122,10 +125,9 @@ function math.BSplinePoint (tDiff, tPoints, tMax)
 	return Q
 end
 
-function math.Round (num, idp)
-	local mult = 10 ^ (idp or 0)
-
-	return math_floor (num * mult + 0.5) / mult
+function math.Round( num, idp )
+	local mult = 10 ^ ( idp or 0 )
+	return math_floor( num * mult + 0.5 ) / mult
 end
 
 -- Rounds towards zero

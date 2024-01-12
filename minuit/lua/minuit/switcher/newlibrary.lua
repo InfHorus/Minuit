@@ -11,18 +11,18 @@ function self:Constructor ()
 		
 		ENTITY.SetNWAngle 			= ENTITY.SetNW2Angle
 		ENTITY.SetNWBool 			= ENTITY.SetNW2Bool
-		ENTITY.SetNWEntity 			= ENTITY.SetNW2Entity
 		ENTITY.SetNWVector 			= ENTITY.SetNW2Vector
-		ENTITY.SetNWFloat 			= ENTITY.SetNW2Float
-		ENTITY.SetNWInt 			= ENTITY.SetNW2Int
 		ENTITY.SetNWString 			= ENTITY.SetNW2String
 		ENTITY.GetNWAngle 			= ENTITY.GetNW2Angle
 		ENTITY.GetNWBool 			= ENTITY.GetNW2Bool
-		ENTITY.GetNWEntity 			= ENTITY.GetNW2Entity
 		ENTITY.GetNWVector 			= ENTITY.GetNW2Vector
-		ENTITY.GetNWFloat 			= ENTITY.GetNW2Float
-		ENTITY.GetNWInt 			= ENTITY.GetNW2Int
 		ENTITY.GetNWString 			= ENTITY.GetNW2String
+		--ENTITY.SetNWEntity 		= ENTITY.SetNW2Entity
+		--ENTITY.SetNWFloat 		= ENTITY.SetNW2Float
+		--ENTITY.SetNWInt 			= ENTITY.SetNW2Int
+		--ENTITY.GetNWEntity 		= ENTITY.GetNW2Entity
+		--ENTITY.GetNWFloat 		= ENTITY.GetNW2Float
+		--ENTITY.GetNWInt 			= ENTITY.GetNW2Int
 
 		ENTITY.SetNetworkedNumber 	= ENTITY.SetNW2Int
 		ENTITY.SetNetworkedEntity 	= ENTITY.SetNW2Entity

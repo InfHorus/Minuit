@@ -10,8 +10,11 @@ end
 
 local isstring      = isstring
 local tonumber      = tonumber
+local tostring		= tostring
 local type          = type
+local strfinder		= string.find
 local createTimer	= timer.Create
+local debug_info	= debug.getinfo
 local callHook		= hook.Call
 local addHook  	 	= addHook 	 or hook.Add
 local removeHook 	= removeHook or hook.Remove
@@ -25,19 +28,35 @@ function self:Constructor ()
 		["Think"] = true,
 		["Tick"]  = true,
 	}
+	
+	self.HookManager.IgnoreList   = { 
+		["FSpectate"] 		 = true,
+		["VC_Load_SV_PSync"] = true,
+		["VC_Think"]		 = true,
+		["Cardinal.Register.PreviousAngles"] = true,
+		["Cardinal.Register.RegisteredAAG_E_50"] = true,
+	}
 end
 
-function hook.Add (hookName, hookSub, hookFunc)
+function hook.Add (hookName, hookSub, hookFunc, ...)
 	if not self.HookManager then
 		self:Constructor ()
+	end
+	
+	if not hookFunc or type (hookFunc) ~= "function" then
+		ErrorNoHaltWithStack ("Minuit:CopyHandler : Provided function from " .. debug_info (2).source .. ":" .. debug_info (2).currentline .. " is invalid.")
 	end
 	
 	hookName = tostring (hookName)
 	
     if self.HookManager.ManagingList [hookName] then
-        addHook ("Minuit:HookingManager", hookSub, hookFunc)
+		if self.HookManager.IgnoreList [hookSub] or strfinder (tostring (hookSub), "VC_") then
+			addHook (hookName, hookSub, hookFunc, ...)
+		else
+			addHook ("Minuit:HookingManager", hookSub, hookFunc)
+		end
     else
-        addHook (hookName, hookSub, hookFunc)
+        addHook (hookName, hookSub, hookFunc, ...)
     end
 end
 
@@ -45,11 +64,15 @@ function hook.Remove (hookName, hookSub)
 	if not self.HookManager then
 		self:Constructor ()
 	end
-	
+
 	hookName = tostring (hookName)
 	
     if self.HookManager.ManagingList [hookName] then
-        removeHook ("Minuit:HookingManager", hookSub)
+		if self.HookManager.IgnoreList [hookSub] or strfinder (tostring (hookSub), "VC_") then
+			removeHook (hookName, hookSub)
+		else
+			removeHook ("Minuit:HookingManager", hookSub)
+		end
     else
         removeHook (hookName, hookSub)
     end

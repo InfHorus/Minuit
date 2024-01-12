@@ -1,12 +1,14 @@
 local tonumber 		= tonumber
 local string_format = string.format
 local string_match 	= string.match
+local math_floor	= math.floor
 local bit_band		= bit.band
 local bit_rshift 	= bit.rshift
 local Lerp 			= Lerp
 
 local COLOR = FindMetaTable 'Color'
 
+--[[
 function Color (r, g, b, a)
 	return setmetatable ({
 		r = tonumber(r) or 255,
@@ -14,6 +16,15 @@ function Color (r, g, b, a)
 		b = tonumber(b) or 255,
 		a = tonumber(a) or 255
 	}, COLOR)
+end
+--]]
+
+function Color (r, g, b, a)
+  r = tonumber(r) or 255
+  g = tonumber(g) or 255
+  b = tonumber(b) or 255
+  a = tonumber(a) or 255
+  return setmetatable({ r = r, g = g, b = b, a = a }, COLOR)
 end
 
 function COLOR:Copy ()
@@ -33,16 +44,34 @@ function COLOR:ToHex ()
 	return string_format ('#%02X%02X%02X', self.r, self.g, self.b)
 end
 
+-- Faster to use bitwise operators instead of calling functions to extract the colors.
+--function COLOR:SetEncodedRGB (num)
+	--self.r, self.g, self.b = bit_band (bit_rshift (num, 16), 0xFF), bit_band (bit_rshift (num, 8), 0xFF), bit_band (num, 0xFF)
+--end
+--function COLOR:SetEncodedRGB (num)
+  --self.r = num & 0xFF
+  --self.g = (num >> 8) & 0xFF
+  --self.b = (num >> 16) & 0xFF
+--end
 function COLOR:SetEncodedRGB (num)
-	self.r, self.g, self.b = bit_band (bit_rshift (num, 16), 0xFF), bit_band (bit_rshift (num, 8), 0xFF), bit_band (num, 0xFF)
+  self.r = num % 256
+  self.g = math_floor(num / 256) % 256
+  self.b = math_floor(num / 65536) % 256
+end
+
+--function COLOR:SetEncodedRGBA (num)
+	--self.r, self.g, self.b, self.a = bit_band (rshift (num, 16), 0xFF), bit_band (rshift (num, 8), 0xFF), bit_band (num, 0xFF), bit_band (rshift (num, 24), 0xFF)
+--end
+-- Verily faster than calling bit.band * 4 + rshift * 4
+function COLOR:SetEncodedRGBA (num)
+  self.r = num % 256
+  self.g = math_floor(num / 256) % 256
+  self.b = math_floor(num / 65536) % 256
+  self.a = math_floor(num / 16777216) % 256
 end
 
 function COLOR:ToEncodedRGB ()
 	return (self.r * 0x100 + self.g) * 0x100 + self.b
-end
-
-function COLOR:SetEncodedRGBA (num)
-	self.r, self.g, self.b, self.a = bit_band (rshift (num, 16), 0xFF), bit_band (rshift (num, 8), 0xFF), bit_band (num, 0xFF), bit_band (rshift (num, 24), 0xFF)
 end
 
 function COLOR:ToEncodedRGBA()
