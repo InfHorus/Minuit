@@ -6,9 +6,6 @@ function self:InternalId ()
 	return "Minuit:TimerEntry"
 end
 
-local type  = type
-local pairs = pairs
-
 function self:Constructor ()
 	self.TimerHandler = Minuit ["Minuit:Source"]:WeakKeys ()
 	
@@ -32,7 +29,7 @@ function self:Constructor ()
 end
 
 function self:CreateTimer (id, delay, callback)
-	if not self.TimerHandler or self.TimerHandler.Create then
+	if not self.TimerHandler.Create then
 		return
 	end
 	
@@ -79,7 +76,7 @@ function self:ExecuteTimers ()
 	end
 	
 	if Minuit ["Minuit:EventHandler"] and Minuit ["Minuit:EventHandler"].HookManager.RefreshRate then
-		if pGetCount () > 40 and pGetCount () < 65 then
+		if pGetCount () > 50 and pGetCount () < 65 then
 			Minuit ["Minuit:EventHandler"].HookManager.RefreshRate = 0.1
 			
 			timer.Adjust ("Minuit:HandleWorldEvents", Minuit ["Minuit:EventHandler"].HookManager.RefreshRate)
@@ -93,35 +90,6 @@ function self:ExecuteTimers ()
 			timer.Adjust ("Minuit:HandleWorldEvents", Minuit ["Minuit:EventHandler"].HookManager.RefreshRate)
 		end
 	end
-end
-
-if Minuit ["Minuit:Source"]:GetStateStatus (SERVER) then
-	local playerAmount = player.GetCount
-	
-	timer.Create ("Minuit:HandleCrossCompatibility", 90, 0,
-		function ()
-			if not Cardinal then return end
-			if not Cardinal.Entwicklungsserie then return end
-					
-			if playerAmount () >= 50 and playerAmount () < 70 and Cardinal.Entwicklungsserie.Rate ~= 0.5 then
-				Cardinal.Entwicklungsserie.Rate = 0.5
-			elseif playerAmount () >= 70 and Cardinal.Entwicklungsserie.Rate ~= 0.7 then
-				Cardinal.Entwicklungsserie.Rate = 0.7
-			elseif playerAmount () < 50 and Cardinal.Entwicklungsserie.Rate ~= 0.06 then
-				Cardinal.Entwicklungsserie.Rate = 0.06
-			end
-				
-			if playerAmount () >= 50 and Cardinal.Entwicklungsserie.Request ~= 30 then
-				Cardinal.Entwicklungsserie.Request = 30
-			elseif playerAmount () < 50 and Cardinal.Entwicklungsserie.Request == 30 then
-				Cardinal.Entwicklungsserie.Request = 10
-			end
-			
-			if timer.Exists ("Cardinal:WorldFunctions.lua") then
-				timer.Remove ("Cardinal:WorldFunctions.lua")
-			end
-		end
-	)
 end
 
 Minuit.MakeGateAway (self, Minuit, self:InternalId ())

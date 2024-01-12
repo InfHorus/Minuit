@@ -2,11 +2,8 @@ if Minuit ["Minuit:Source"]:GetStateStatus (SERVER) then
 	return
 end
 
-local self     = {}
-local pairs    = pairs
-local tostring = tostring
-local string   = string
-local strfind  = string.find
+local self  = {}
+local pairs = pairs
 
 function self:InternalId ()
 	return "Minuit:CoreRendering"
@@ -54,7 +51,7 @@ function self:RenderingInTime ()
 	end
 	
 	for _, customEntity in pairs (self.EntityTable ()) do
-		if not IsValid (customEntity) or not validateState (customEntity) or strfind (tostring (customEntity), "func_breakable") then
+		if not IsValid (customEntity) or not validateState (customEntity) or string.find (tostring (customEntity), "func_breakable") then
 			goto ignoreIteration
 		end
 

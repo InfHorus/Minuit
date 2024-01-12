@@ -10,10 +10,7 @@ end
 
 local isstring      = isstring
 local tonumber      = tonumber
-local tostring		= tostring
 local type          = type
-local strfinder		= string.find
-local debug_info	= debug.getinfo
 local createTimer	= timer.Create
 local callHook		= hook.Call
 local addHook  	 	= addHook 	 or hook.Add
@@ -28,31 +25,22 @@ function self:Constructor ()
 		["Think"] = true,
 		["Tick"]  = true,
 	}
-	
-	self.HookManager.IgnoreList   = { 
-		["VC_Load_SV_PSync"] = true,
-		["VC_Think"]		 = true,
-	}
 end
 
-function hook.Add (hookName, hookSub, hookFunc, ...)
+function hook.Add (hookName, hookSub, hookFunc)
 	hookName = tostring (hookName)
 	
-	if not hookFunc or type (hookFunc) ~= "function" then
-		ErrorNoHaltWithStack ("Minuit:EventHandler : Provided function from " .. debug_info (2).source .. ":" .. debug_info (2).currentline .. " is invalid.")
-	end
-	
-    if self.HookManager.ManagingList [hookName] and not self.HookManager.IgnoreList [hookSub] and not strfinder (tostring (hookSub), "VC_") then
+    if self.HookManager.ManagingList [hookName] then
         addHook ("Minuit:HookingManager", hookSub, hookFunc)
     else
-        addHook (hookName, hookSub, hookFunc, ...)
+        addHook (hookName, hookSub, hookFunc)
     end
 end
 
 function hook.Remove (hookName, hookSub)
 	hookName = tostring (hookName)
 	
-    if self.HookManager.ManagingList [hookName] and not self.HookManager.IgnoreList [hookSub] and not strfinder (tostring (hookSub), "VC_") then
+    if self.HookManager.ManagingList [hookName] then
         removeHook ("Minuit:HookingManager", hookSub)
     else
         removeHook (hookName, hookSub)

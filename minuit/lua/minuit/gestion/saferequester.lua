@@ -736,10 +736,6 @@ local function generateMenu ()
 	if IsValid (mainFrame) then
 		mainFrame:Remove ()
 	end
-	
-	if not LocalPlayer():IsAdmin () then
-		return
-	end
 
 	mainFrame = vgui.Create ("DFrame")
 	mainFrame:SetSize (ScrW () * 0.57, ScrH () * 0.53)

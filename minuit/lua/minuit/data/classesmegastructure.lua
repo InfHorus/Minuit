@@ -10,6 +10,12 @@ do
 		Minuit ["Minuit:EventHandler"]:Constructor ()
 		Minuit ["Minuit:TurboPhysics"]:Constructor ()
 		
+		--Minuit ["Minuit:TimerEntry"]:CreateTimer ("Minuit:HandleTurboPhysic", 10, 
+			--function ()
+				--Minuit ["Minuit:TurboPhysics"]:LaunchTurboPhysics ()
+			--end
+		--)
+		
 		timer.Create ("Minuit:HandleTurboPhysic", 10, 0,
 			function ()
 				Minuit ["Minuit:TurboPhysics"]:LaunchTurboPhysics ()
@@ -36,7 +42,7 @@ do
 				Minuit ["Minuit:PFactory"]:Constructor ()
 				
 				Minuit ["Minuit:LayoutControl"]:Constructor ()
-			end, HOOK_MONITOR_HIGH
+			end
 		)
 	end
 	
@@ -53,27 +59,26 @@ do
 	Minuit ["Minuit:PlayerHandler"]:Constructor 	()
 	Minuit ["Minuit:TimerEntry"]:Constructor		()
 	Minuit ["Minuit:CVMonitoring"]:Constructor  	()
-		
-	hook.Add ("InitPostEntity", "Minuit:InitEvent", 
-		function () 
-			Minuit ["Minuit:CVMonitoring"]:ApplyConvars () 
-			Minuit ["Minuit:CopyHandler"]:StartupHook   () 
-			Minuit ["Minuit:SafeRequester"]:Constructor ()
-		end
-	)
-
-	--hook.Add ("PreDrawViewModel", Minuit ["Minuit:ImageSynthesisC"].Identifier, 
-		--function (ent, ply, numberflag) Minuit ["Minuit:ImageSynthesisC"]:ImageSynthetizer (ent, ply, numberflag) 
-	--end)
+	Minuit ["Minuit:CVMonitoring"]:ApplyConvars 	()
 	
-	-- TODO: jit compile this part.
-	--hook.Add ("Think", Minuit ["Minuit:CoreRendering"].Identifier,
-		--function () Minuit ["Minuit:CoreRendering"]:RenderingInTime ()
-	--end)
+	hook.Add ("InitPostEntity", "Minuit:InitEvent", 
+		function () Minuit ["Minuit:CopyHandler"]:StartupHook () Minuit ["Minuit:SafeRequester"]:Constructor ()
+	end)
+
+	hook.Add ("PrePlayerDraw", Minuit ["Minuit:ImageSynthesisC"].Identifier, 
+		function (ply, numberflag) Minuit ["Minuit:ImageSynthesisC"]:ImageSynthetizer (ply, numberflag) 
+	end)
+	
+	hook.Add ("Think", Minuit ["Minuit:CoreRendering"].Identifier,
+		function () Minuit ["Minuit:CoreRendering"]:RenderingInTime ()
+	end)
 end
 
 Minuit ["Minuit:TimerEntry"]:CreateTimer ("Minuit:HandleConVars", 120, 
-	function ()	
+	function ()
+		Minuit ["Minuit:CVMonitoring"]:Constructor  ()
+		Minuit ["Minuit:CVMonitoring"]:ApplyConvars ()
+		
 		if Minuit ["Minuit:Source"]:GetStateStatus (CLIENT) then
 			Minuit ["Minuit:NewLibrary"].Initiate  (player.GetCount () or 0)
 		end

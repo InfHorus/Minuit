@@ -1,7 +1,7 @@
 if Minuit ["Minuit:Source"]:GetStateStatus (SERVER) then
 	return
 end
-if true then return end
+
 do
 	local SetFont 		= surface.SetFont
 	local GetTextSize 	= surface.GetTextSize
