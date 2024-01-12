@@ -57,6 +57,8 @@ function self:Constructor ()
 	self.LoadFile [#self.LoadFile + 1] = "CLIENT|minuit/data/classesmegastructure.lua"
 	self.LoadFile [#self.LoadFile + 1] = "CLIENT|minuit/switcher/animations.lua"
 	self.LoadFile [#self.LoadFile + 1] = "CLIENT|minuit/fingerprint.lua"
+	self.LoadFile [#self.LoadFile + 1] = "CLIENT|minuit/switcher/drawlibrary.lua"
+	--self.LoadFile [#self.LoadFile + 1] = "CLIENT|minuit/plugins/hooksystem.lua"
 end
 
 function self:ParseCorrectFiles (_)
