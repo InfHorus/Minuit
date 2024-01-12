@@ -277,7 +277,7 @@ function draw.RoundedBoxEx (bordersize, x, y, w, h, color, a, b, c, d)
 	surface_DrawRect (x, y + bordersize, bordersize, h - bordersize * 2)
 	surface_DrawRect (x + w - bordersize, y + bordersize, bordersize, h - bordersize * 2)
 
-	surface_SetTexture (bordersize > 8 and Tex_Corner16 or Tex_Corner8)
+	surface_SetTexture (bordersize > 8 and tex_corner16 or tex_corner8)
 
 	if a then
 		surface_DrawTexturedRectRotated (x + bordersize/2 , y + bordersize/2, bordersize, bordersize, 0)
