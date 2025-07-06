@@ -79,5 +79,10 @@ function COLOR:ToEncodedRGBA()
 end
 
 function COLOR:Lerp(fraction, from, to)
-	self.r, self.g, self.b = Lerp (fraction, from.r, to.r), Lerp (fraction, from.g, to.g), Lerp (fraction, from.b, to.b), Lerp (fraction, from.a, to.a)
+        self.r, self.g, self.b, self.a =
+                Lerp(fraction, from.r, to.r),
+                Lerp(fraction, from.g, to.g),
+                Lerp(fraction, from.b, to.b),
+                Lerp(fraction, from.a, to.a)
 end
+

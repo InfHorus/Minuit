@@ -32,9 +32,10 @@ function self:Constructor ()
 end
 
 function self:CreateTimer (id, delay, callback)
-	if not self.TimerHandler or self.TimerHandler.Create then
-		return
-	end
+        -- Abort if the timer handler tables haven't been initialized
+        if not self.TimerHandler or not self.TimerHandler.Create then
+                return
+        end
 	
 	if not self.TimerHandler.Create [id] then
 		self.TimerHandler.Create [id] = {delay, callback, delay}
